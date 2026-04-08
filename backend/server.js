@@ -22,6 +22,12 @@ mongoose.connect("mongodb+srv://jmartine203_db_user:c6Ca9x9teztwfful@cloudteams.
 .catch(err => console.log(err));
 app.use("/api/auth", authRoutes);
 app.use("/api/chat", chatRoutes);
+app.get('/', (req, res) => {
+ res.send('Backend funcionando 🚀');
+});
+app.get('/api', (req, res) => {
+ res.send('API funcionando 🚀');
+});
 /* 🔥 SOCKET LOGIC */
 io.on("connection", (socket) => {
 console.log("Usuario conectado:", socket.id);
