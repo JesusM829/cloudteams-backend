@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Notificaciones - CloudTeams</title>
+
+<link rel="icon" href="assets/favicon/favicon.png">
+
+<style>
+/* 🌍 BASE */
+body{
+ margin:0;
+ font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+ background: linear-gradient(120deg,#eef2f7,#e6ebf2);
+ height:100vh;
+}
+/* 🧊 LIQUID GLASS */
+.glass{
+ background: linear-gradient(
+   135deg,
+   rgba(255,255,255,0.25),
+   rgba(255,255,255,0.05)
+ );
+ backdrop-filter: blur(40px) saturate(180%);
+ border:1px solid rgba(255,255,255,0.4);
+ box-shadow:
+   inset 0 2px 2px rgba(255,255,255,0.6),
+   0 20px 40px rgba(0,0,0,0.08);
+ border-radius:20px;
+}
+/* 📦 LAYOUT */
+.app{
+ display:flex;
+ height:100vh;
+ padding:15px;
+ gap:15px;
+}
+/* 📩 SIDEBAR */
+.sidebar{
+ width:340px;
+ display:flex;
+ flex-direction:column;
+ overflow:hidden;
+}
+.sidebar-header{
+ padding:15px;
+ font-weight:600;
+ border-bottom:1px solid rgba(255,255,255,0.4);
+}
+.list{
+ overflow-y:auto;
+ padding:10px;
+}
+/* 📧 ITEM */
+.mail{
+ padding:14px;
+ border-radius:16px;
+ margin-bottom:8px;
+ cursor:pointer;
+ transition:0.3s;
+}
+.mail:hover{
+ background:rgba(255,255,255,0.4);
+ transform:scale(1.02);
+}
+.mail.active{
+ background:rgba(255,255,255,0.6);
+}
+/* 🔵 PUNTO */
+.dot{
+ width:10px;
+ height:10px;
+ border-radius:50%;
+ background:linear-gradient(135deg,#00d4ff,#00ffa3);
+ box-shadow:0 0 10px rgba(0,255,200,0.8);
+}
+/* TEXTO */
+.sender{font-weight:600;font-size:14px;}
+.subject{font-size:13px;}
+.preview{font-size:12px;opacity:0.6;}
+/* 📄 PANEL DERECHO */
+.content{
+ flex:1;
+ display:flex;
+ flex-direction:column;
+ padding:15px;
+}
+/* 🔝 TOOLBAR */
+.toolbar{
+ display:flex;
+ justify-content:space-between;
+ padding:10px;
+ margin-bottom:10px;
+}
+/* GRUPOS */
+.left-tools,.right-tools{
+ display:flex;
+ gap:10px;
+}
+/* BOTÓN ESTILO APPLE */
+.tool{
+ width:45px;
+ height:45px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:rgba(255,255,255,0.3);
+ backdrop-filter: blur(20px);
+ cursor:pointer;
+ transition: all 0.25s ease;
+ box-shadow:
+   inset 0 1px 2px rgba(255,255,255,0.7),
+   0 5px 15px rgba(0,0,0,0.1);
+}
+/* ICONO */
+.tool img{
+ width:22px;
+ height:22px;
+ object-fit:contain;
+}
+/* ✨ HOVER APPLE */
+.tool:hover{
+ transform: scale(1.15);
+ background:rgba(255,255,255,0.6);
+}
+/* 💥 CLICK */
+.tool:active{
+ transform: scale(0.9);
+ box-shadow:
+   0 0 20px rgba(0,255,200,0.6),
+   0 0 40px rgba(0,200,255,0.4);
+}
+/* HEADER */
+.mail-header{
+ border-bottom:1px solid rgba(255,255,255,0.4);
+ padding-bottom:15px;
+ margin-bottom:15px;
+}
+.meta{font-size:13px;opacity:0.6;}
+/* BODY */
+.mail-body{
+ overflow-y:auto;
+ line-height:1.6;
+}
+/* VACÍO */
+.empty{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ height:100%;
+ opacity:0.5;
+}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- 📩 LISTA -->
+<div class="sidebar glass">
+<div class="sidebar-header">Bandeja de entrada</div>
+<div class="list" id="list"></div>
+</div>
+<!-- 📄 DETALLE -->
+<div class="content glass" id="content">
+<!-- 🔝 TOOLBAR -->
+<div class="toolbar">
+<div class="left-tools">
+<div class="tool"><img src="assets/icons/menu.png"></div>
+<div class="tool"><img src="assets/icons/correo.png"></div>
+<div class="tool"><img src="assets/icons/escribir.png"></div>
+<div class="tool"><img src="assets/icons/eliminar.png"></div>
+<div class="tool"><img src="assets/icons/alerta.png"></div>
+</div>
+<div class="right-tools">
+<div class="tool"><img src="assets/icons/responder.png"></div>
+<div class="tool"><img src="assets/icons/reenviar.png"></div>
+<div class="tool"><img src="assets/icons/fijar.png"></div>
+</div>
+</div>
+<div class="empty">Selecciona un correo</div>
+</div>
+</div>
+<script>
+/* DATA */
+const mails = [
+{
+sender:"Reuniones CloudTeams",
+subject:"Reunión semanal programada",
+time:"11:44 a.m.",
+unread:true,
+content:`
+Estimado equipo,<br><br>
+Se ha programado la reunión semanal para este lunes.<br><br>
+• Revisión de tareas<br>
+• Avances del sprint<br>
+• Feedback general<br><br>
+Saludos,<br><strong>CloudTeams</strong>
+`
+},
+{
+sender:"Sistema CloudTeams",
+subject:"Nueva tarea asignada",
+time:"10:15 a.m.",
+unread:true,
+content:`
+Hola,<br><br>
+Se te ha asignado una nueva tarea en el sistema.<br><br>
+Por favor revisa tu panel y actualiza el estado.<br><br>
+Gracias,<br><strong>Sistema</strong>
+`
+},
+{
+sender:"Orlando Martínez",
+subject:"Documento compartido",
+time:"Ayer",
+unread:false,
+content:`
+Hola,<br><br>
+Te compartí el documento del proyecto para revisión.<br><br>
+Quedo atento a tus comentarios.<br><br>
+Saludos,<br><strong>Orlando</strong>
+`
+},
+{
+sender:"Equipo Desarrollo",
+subject:"Deploy completado",
+time:"Ayer",
+unread:true,
+content:`
+Equipo,<br><br>
+El despliegue en producción fue exitoso.<br><br>
+No se detectaron errores críticos.<br><br>
+Buen trabajo 👏
+`
+},
+{
+sender:"Recursos Humanos",
+subject:"Capacitación obligatoria",
+time:"Lunes",
+unread:false,
+content:`
+Hola,<br><br>
+Recuerda completar la capacitación obligatoria antes del viernes.<br><br>
+Accede desde el portal interno.<br><br>
+Gracias,<br><strong>RRHH</strong>
+`
+},
+{
+sender:"CloudTeams Notificaciones",
+subject:"Actividad reciente en tu cuenta",
+time:"Domingo",
+unread:true,
+content:`
+Hola,<br><br>
+Se detectó actividad reciente en tu cuenta:<br><br>
+• Inicio de sesión desde Chrome<br>
+• Cambio de contraseña<br><br>
+Si no fuiste tú, contacta soporte.
+`
+},
+{
+sender:"Soporte Técnico",
+subject:"Ticket resuelto #4521",
+time:"Domingo",
+unread:false,
+content:`
+Hola,<br><br>
+Tu solicitud ha sido resuelta correctamente.<br><br>
+Si el problema persiste, responde este correo.<br><br>
+Saludos,<br><strong>Soporte</strong>
+`
+},
+{
+sender:"Agenda CloudTeams",
+subject:"Evento mañana 9:00 AM",
+time:"Sábado",
+unread:true,
+content:`
+Recordatorio:<br><br>
+Tienes una reunión programada mañana a las 9:00 AM.<br><br>
+No olvides conectarte a tiempo.
+`
+},
+{
+sender:"Administrador",
+subject:"Actualización del sistema",
+time:"Viernes",
+unread:false,
+content:`
+Estimado usuario,<br><br>
+Se realizaron mejoras en el sistema.<br><br>
+• Mayor velocidad<br>
+• Mejor interfaz<br><br>
+Disfruta la nueva experiencia 🚀
+`
+}
+];
+/* RENDER */
+const list=document.getElementById("list");
+const content=document.getElementById("content");
+mails.forEach((m)=>{
+const div=document.createElement("div");
+div.className="mail glass";
+div.innerHTML=`
+<div style="display:flex; justify-content:space-between;">
+<div>
+<div class="sender">${m.sender}</div>
+<div class="subject">${m.subject}</div>
+</div>
+${m.unread?`<div class="dot"></div>`:""}
+</div>
+`;
+div.onclick=()=>openMail(m,div);
+list.appendChild(div);
+});
+function openMail(m,element){
+document.querySelectorAll(".mail").forEach(e=>e.classList.remove("active"));
+element.classList.add("active");
+content.innerHTML=`
+<div class="toolbar">
+<div class="left-tools">
+<div class="tool"><img src="assets/icons/menu.png"></div>
+</div>
+</div>
+<div class="mail-header">
+<h2>${m.subject}</h2>
+<div class="meta">${m.sender}</div>
+</div>
+<div class="mail-body">${m.content}</div>
+`;
+}
+</script>
+</body>
+</html>

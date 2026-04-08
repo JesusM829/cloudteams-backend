@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calendario CloudTeams</title>
+
+<link rel="icon" href="assets/favicon/favicon.png">
+
+<style>
+/* 🌍 BASE */
+body{
+ margin:0;
+ font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+ background: linear-gradient(120deg,#eef2f7,#e6ebf2);
+ display:flex;
+ justify-content:center;
+ align-items:flex-start;
+ padding-top: 120px;
+}
+/* 📦 GRID */
+.calendar{
+ display:grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap:25px;
+ padding:20px;
+}
+/* 🧊 TARJETA MES */
+.month{
+ width: 250px;
+ height: 170px;
+ border-radius:25px;
+ overflow:hidden;
+ cursor:pointer;
+ position:relative;
+ /* LIQUID GLASS */
+ background: rgba(255,255,255,0.15);
+ backdrop-filter: blur(30px);
+ border:1px solid rgba(255,255,255,0.4);
+ box-shadow:
+   inset 0 2px 2px rgba(255,255,255,0.6),
+   0 10px 25px rgba(0,0,0,0.1);
+ transition: all 0.35s cubic-bezier(.25,.8,.25,1);
+}
+/* 🖼 IMAGEN */
+.month img{
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ border-radius:25px;
+}
+/* ✨ HOVER (APPLE STYLE) */
+.month:hover{
+ transform: scale(1.08);
+ box-shadow:
+   0 0 20px rgba(0,255,200,0.5),
+   0 0 40px rgba(0,200,255,0.3),
+   inset 0 2px 2px rgba(255,255,255,0.7);
+}
+/* 💥 CLICK */
+.month:active{
+ transform: scale(0.95);
+ box-shadow:
+   0 0 30px rgba(0,255,200,0.9),
+   0 0 60px rgba(0,200,255,0.7);
+}
+/* 🔵 EFECTO SELECCIONADO */
+.month.active{
+ box-shadow:
+   0 0 25px rgba(0,255,200,0.8),
+   0 0 50px rgba(0,200,255,0.6),
+   inset 0 0 20px rgba(255,255,255,0.5);
+}
+/* ✨ BRILLO ANIMADO */
+.month::after{
+ content:"";
+ position:absolute;
+ top:-50%;
+ left:-50%;
+ width:200%;
+ height:200%;
+ background: radial-gradient(circle, rgba(255,255,255,0.25), transparent 60%);
+ opacity:0;
+ transition:0.4s;
+}
+.month:hover::after{
+ opacity:1;
+}
+
+.year{
+ position:absolute;
+ top:40px;
+ left:80px;
+ font-size:52px;
+ font-weight:700;
+ color:#111;
+ text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+</style>
+</head>
+<body>
+<h1 class="year">2026</h1>
+<div class="calendar">
+<div class="month"><img src="assets/calendario/enero.png"></div>
+<div class="month"><img src="assets/calendario/febrero.png"></div>
+<div class="month"><img src="assets/calendario/marzo.png"></div>
+<div class="month"><img src="assets/calendario/abril.png"></div>
+<div class="month"><img src="assets/calendario/mayo.png"></div>
+<div class="month"><img src="assets/calendario/junio.png"></div>
+<div class="month"><img src="assets/calendario/julio.png"></div>
+<div class="month"><img src="assets/calendario/agosto.png"></div>
+<div class="month"><img src="assets/calendario/septiembre.png"></div>
+<div class="month"><img src="assets/calendario/octubre.png"></div>
+<div class="month"><img src="assets/calendario/noviembre.png"></div>
+<div class="month"><img src="assets/calendario/diciembre.png"></div>
+</div>
+<script>
+/* 🔥 CLICK SELECCIÓN ESTILO APPLE */
+const months = document.querySelectorAll(".month");
+months.forEach(m => {
+ m.addEventListener("click", () => {
+   /* quitar selección anterior */
+   months.forEach(el => el.classList.remove("active"));
+   /* activar */
+   m.classList.add("active");
+ });
+});
+</script>
+</body>
+</html>

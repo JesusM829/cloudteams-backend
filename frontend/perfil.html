@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Editar Perfil</title>
+<link rel="icon" href="assets/favicon/favicon.png">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+    /* 🔥 FIX DEFINITIVO */
+* {
+ box-sizing: border-box;
+}
+body{
+margin:0;
+font-family:-apple-system, sans-serif;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+/* ❌ SE QUITA EL BACKGROUND PARA QUE SALGA EL DE register */
+}
+/* 🧊 CARD */
+.card{
+width:420px;
+padding:30px;
+border-radius:30px;
+background: rgba(255,255,255,0.2);
+backdrop-filter: blur(40px);
+border:1px solid rgba(255,255,255,0.4);
+box-shadow:0 20px 50px rgba(0,0,0,0.1);
+}
+.title{
+text-align:center;
+font-size:26px;
+font-weight:600;
+margin-bottom:20px;
+}
+.input{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border:none;
+border-radius:12px;
+background:rgba(255,255,255,0.5);
+}
+.row .input{
+    flex:1;
+}
+
+.row{
+display:flex;
+gap:10px;
+width: 100%;
+}
+.btn{
+padding:10px 15px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+.save{
+background:linear-gradient(135deg,#00d4ff,#00ffa3);
+color:white;
+}
+</style>
+</head>
+<!-- 🔥 AQUÍ ESTÁ EL CAMBIO IMPORTANTE -->
+<body class="auth-page">
+<div class="card">
+<div class="title">Editar perfil</div>
+<div class="row">
+<input id="nombre" class="input" placeholder="Nombre">
+<input id="apellido" class="input" placeholder="Apellido">
+</div>
+<input id="correo" class="input" placeholder="Correo">
+<input id="fecha" type="date" class="input">
+<input id="telefono" class="input" placeholder="Teléfono">
+<select id="rol" class="input">
+<option>Usuario</option>
+<option>Administrador</option>
+</select>
+<button class="btn save" onclick="guardar()">Guardar</button>
+</div>
+<script>
+/* 🔥 CARGAR DATOS SI YA EXISTEN */
+window.onload = () => {
+const user = JSON.parse(localStorage.getItem("user")) || {};
+document.getElementById("nombre").value = user.nombre || "";
+document.getElementById("apellido").value = user.apellido || "";
+document.getElementById("correo").value = user.correo || "";
+document.getElementById("fecha").value = user.fecha || "";
+document.getElementById("telefono").value = user.telefono || "";
+document.getElementById("rol").value = user.rol || "Usuario";
+};
+/* 💾 GUARDAR */
+function guardar(){
+const user = {
+  nombre: document.getElementById("nombre").value,
+  apellido: document.getElementById("apellido").value,
+  correo: document.getElementById("correo").value,
+  fecha: document.getElementById("fecha").value,
+  telefono: document.getElementById("telefono").value,
+  rol: document.getElementById("rol").value
+};
+localStorage.setItem("user", JSON.stringify(user));
+alert("Datos guardados ✅");
+window.location.href = "chat.html";
+}
+</script>
+</body>
+</html>

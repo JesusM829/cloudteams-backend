@@ -1,0 +1,658 @@
+body.login-page {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+
+  /* ✅ FONDO COMPLETO */
+  background: url('../assets/images/background.png') no-repeat center center fixed;
+  background-size: cover;
+
+  color: #0f172a;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/* CONTENIDO */
+.left {
+  position: relative;
+  z-index: 2;
+
+  padding: 80px;
+  max-width: 600px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* TEXTO */
+.left h1 {
+  font-size: 50px;
+  margin-bottom: 20px;
+  color: #020617;
+}
+
+.left p {
+  font-size: 18px;
+  color: #334155;
+}
+
+/* BOTONES */
+.buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+}
+
+/* 🔥 BOTÓN PRINCIPAL LIQUID GLASS */
+.primary {
+  position: relative;
+
+  background: rgba(59, 130, 246, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  padding: 12px 25px;
+  border-radius: 14px;
+
+  color: #020617;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255,255,255,0.6);
+}
+
+/* ✨ BRILLO */
+.primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* 🔥 HOVER PRO */
+.primary:hover {
+  transform: translateY(-2px) scale(1.05);
+
+  background: rgba(20, 184, 166, 0.35);
+
+  box-shadow:
+    0 10px 40px rgba(20, 184, 166, 0.3),
+    inset 0 1px 2px rgba(255,255,255,0.8);
+}
+
+/* 🔘 BOTÓN SECUNDARIO GLASS */
+.secondary {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(15, 23, 42, 0.2);
+
+  padding: 12px 25px;
+  border-radius: 14px;
+
+  color: #020617;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* 🔘 HOVER */
+.secondary:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.05);
+}
+
+/* ❌ RIGHT eliminado */
+.right {
+  display: none;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  width: 300px;
+  margin: 150px auto;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+/* GLASS */
+.glass {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px);
+}
+
+/* INPUT */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+}
+
+/* CONTENEDOR CENTRADO */
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* TARJETA */
+.login-card {
+  width: 350px;
+  padding: 30px;
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.2),
+    inset 0 1px 1px rgba(255,255,255,0.5);
+
+  text-align: center;
+}
+
+/* TITULO */
+.login-card h2 {
+  margin-bottom: 5px;
+  color: #020617;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+  color: #334155;
+}
+
+/* INPUT BONITOS */
+.login-card input {
+  background: rgba(255,255,255,0.4);
+  border: none;
+  margin-bottom: 15px;
+}
+
+/* TEXTO EXTRA */
+.extra {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.logo {
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+.login-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* 🔥 clave para bajar el botón */
+  margin-top: 25px;
+}
+
+.left-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 🔥 izquierda real */
+}
+
+.left-footer .extra {
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.right-footer {
+  display: flex;
+  align-items: flex-end; /* 🔥 lo baja */
+}
+
+.subtitle {
+  margin-bottom: 15px;
+  margin-top: -50px; /* 🔥 lo sube */
+  color: #020617;
+  font-weight: 500; /* 🔥 negrilla */
+  font-size: 16px;
+}
+
+/* 🔥 FONDO HOME (INDEX) */
+.home-page {
+  background: url('../assets/images/background.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* 🔥 FONDO LOGIN + REGISTER */
+.auth-page {
+  background: url('../assets/images/background1.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* 🔥 FIX CENTRADO INPUTS */
+.login-card input {
+  box-sizing: border-box;
+}
+
+/* 🔽 SELECT ESTILO GLASS */
+.login-card select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+
+  background: rgba(255,255,255,0.4);
+  color: #020617;
+
+  backdrop-filter: blur(10px);
+}
+
+/* 🔽 SELECT ESTILO GLASS */
+.login-card select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+
+  background: rgba(255,255,255,0.4);
+  color: #020617;
+
+  backdrop-filter: blur(10px);
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.row input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 🔥 EFECTO LIQUID GLASS REAL */
+.glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.25),
+    rgba(255,255,255,0.05)
+  );
+  backdrop-filter: blur(50px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.4);
+
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,0.6),
+    inset 0 -2px 6px rgba(255,255,255,0.2),
+    0 10px 40px rgba(0,0,0,0.08);
+}
+
+/* ✨ REFRACTION LIGHT */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.6),
+    transparent,
+    rgba(255,255,255,0.2)
+  );
+
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* 🧠 SIDEBAR ACTIVE */
+.menu-item.active {
+  background: rgba(255,255,255,0.5);
+  transform: scale(1.05);
+}
+
+/* ✨ HOVER PREMIUM */
+.menu-item {
+  transition: all 0.35s cubic-bezier(.2,.8,.2,1);
+}
+
+.menu-item:hover {
+  transform: translateX(8px) scale(1.03);
+}
+
+/* 🔥 INPUT FOCUS PRO */
+.input:focus {
+  background: rgba(255,255,255,0.6);
+  box-shadow: 0 0 20px rgba(255,255,255,0.4);
+}
+
+/* 💬 MENSAJES MÁS PRO */
+.msg {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 🌀 SCROLL SUAVE */
+.messages {
+  scroll-behavior: smooth;
+}
+
+/* 🔥 BOTÓN NIVEL APPLE */
+.btn {
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.6),
+    rgba(255,255,255,0.2)
+  );
+  backdrop-filter: blur(30px);
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,0.7),
+    0 5px 20px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+  transform: scale(1.08);
+}
+
+/* 🔝 NUEVA TOPBAR PRO */
+.topbar {
+  height: 80px;
+  margin: 15px;
+  border-radius: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 25px;
+}
+
+/* IZQUIERDA */
+.top-left h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* CENTRO */
+.top-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.search {
+  width: 420px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: none;
+
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(20px);
+
+  outline: none;
+  transition: 0.3s;
+}
+
+.search:focus {
+  width: 500px;
+  background: rgba(255,255,255,0.7);
+}
+
+/* DERECHA */
+.top-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ICONOS */
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: 0.3s;
+
+  font-size: 14px;
+}
+
+/* HOVER */
+.action-btn:hover {
+  transform: scale(1.15);
+  background: rgba(255,255,255,0.7);
+}
+
+/* PERFIL */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+}
+
+/* CLIP */
+.clip-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.clip-btn:hover {
+  transform: scale(1.1);
+}
+
+/* BOTÓN ENVIAR IOS 26 */
+.btn-send {
+  width: 55px;
+  height: 45px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(20px);
+
+  font-size: 18px;
+
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ✨ GLOW AZUL VERDOSO */
+.btn-send::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 25px;
+  background: linear-gradient(120deg, #00d4ff, #00ffa3);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.btn-send:hover::after {
+  opacity: 0.25;
+}
+
+/* CLICK EFECTO */
+.btn-send:active {
+  transform: scale(0.9);
+  box-shadow: 0 0 25px rgba(0,255,200,0.6);
+}
+
+/* 🔥 PROFILE MENU */
+.profile {
+  position: relative;
+  cursor: pointer;
+}
+
+/* 🔥 FIX DEFINITIVO PROFILE MENU (NO TRANSPARENTE) */
+.profile-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+
+  width: 260px;
+  padding: 15px;
+  border-radius: 20px;
+
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+
+  /* 🔥 FONDO SOLIDO (NO TRANSPARENTE FEO) */
+  background: rgba(255, 255, 255, 0.95);
+
+  /* 🔥 EFECTO DIFUMINADO SUAVE */
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+
+  /* 🔥 BORDE IOS */
+  border: 1px solid rgba(200, 220, 255, 0.6);
+
+  /* 🔥 SOMBRA REAL (QUE FLOTE) */
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.25);
+
+  z-index: 99999;
+}
+
+/* HEADER */
+.profile-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+.profile-header img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+/* OPCIONES */
+.menu-option {
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menu-option:hover {
+  background: rgba(255,255,255,0.4);
+  transform: scale(1.03);
+}
+
+/* PELIGRO */
+.menu-option.danger {
+  color: red;
+}
+
+.profile {
+  position: relative;
+  z-index: 1000;
+}
+
+.glass-alert::after {
+ content: "";
+ position: absolute;
+ inset: 0;
+ border-radius: inherit;
+ background: linear-gradient(
+   120deg,
+   rgba(255,255,255,0.6),
+   transparent
+ );
+ opacity: 0.3;
+}
+
+/* 🔥 FIX DEFINITIVO CHAT */
+.app {
+ height: 100vh;
+}
+.main {
+ flex: 1;
+ display: flex;
+ flex-direction: column;
+ overflow: hidden;
+}
+.chat {
+ flex: 1;
+ display: flex;
+ flex-direction: column;
+ overflow: hidden;
+}
+.messages {
+ flex: 1;
+ overflow-y: auto;
+ min-height: 0;
+}
+.input-area {
+ flex-shrink: 0;
+}
+ 

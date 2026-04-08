@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CloudTeams Login</title>
+<link rel="icon" href="assets/favicon/favicon.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="auth-page">
+<div class="login-container">
+<div class="login-card glass">
+<img src="../frontend/assets/images/logo.png" class="logo">
+<p class="subtitle">Iniciar sesión</p>
+<input id="correo" placeholder="Correo electrónico">
+<!-- 🔥 INPUT PASSWORD CON ICONO LIQUID GLASS -->
+<div style="position:relative;">
+<input id="password" type="password" placeholder="Contraseña" style="width:100%;">
+<img
+id="eyeIcon"
+src="assets/icons/password1.png"
+onclick="togglePassword()"
+style="
+position:absolute;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+width:22px;
+height:22px;
+cursor:pointer;
+transition: all 0.25s ease;
+opacity:0.85;
+"
+>
+</div>
+<!-- 🔥 NUEVO FOOTER AGREGADO -->
+<div class="login-footer">
+<div class="left-footer">
+<p class="extra">Si aún no tienes cuenta registrate aquí</p>
+<button class="secondary" onclick="goRegister()">Registrarse</button>
+</div>
+<div class="right-footer">
+<button class="primary" onclick="login()">Iniciar</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 🚫 ALERTA ERROR CENTRADA -->
+<div id="errorBox" style="
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%, -50%);
+padding:18px 30px;
+border-radius:20px;
+background: rgba(255,0,0,0.2);
+backdrop-filter: blur(25px);
+-webkit-backdrop-filter: blur(25px);
+border:1px solid rgba(255,0,0,0.4);
+color:#fff;
+font-weight:600;
+display:none;
+z-index:9999;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+text-align:center;
+">
+❌ Error
+</div>
+<script src="js/auth.js"></script>
+<!-- 🔥 SCRIPT NUEVO (ARREGLADO) -->
+<script>
+/* 👁 MOSTRAR / OCULTAR */
+function togglePassword(){
+const input = document.getElementById("password");
+const icon = document.getElementById("eyeIcon");
+if(input.type === "password"){
+  input.type = "text";
+  icon.src = "assets/icons/password2.png";
+  icon.style.transform = "translateY(-50%) scale(1.2)";
+  setTimeout(()=>{
+    icon.style.transform = "translateY(-50%) scale(1)";
+  },150);
+} else {
+  input.type = "password";
+  icon.src = "assets/icons/password1.png";
+  icon.style.transform = "translateY(-50%) scale(0.9)";
+  setTimeout(()=>{
+    icon.style.transform = "translateY(-50%) scale(1)";
+  },150);
+}
+}
+/* 🚫 ERROR VISUAL */
+function showError(msg){
+const box = document.getElementById("errorBox");
+box.innerText = "❌ " + msg;
+box.style.display = "block";
+setTimeout(()=>{
+  box.style.display = "none";
+}, 2500);
+}
+/* 🔐 VALIDACIÓN FORMATO (SOLO VISUAL) */
+function validarPassword(pass){
+const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[&$/]).{8,}$/;
+return regex.test(pass);
+}
+/* 🔥 SOBRESCRIBIR LOGIN (YA SIN LOCALSTORAGE) */
+const originalLogin = window.login;
+window.login = function(){
+const correo = document.getElementById("correo").value;
+const password = document.getElementById("password").value;
+if(!correo || !password){
+  showError("Completa todos los campos");
+  return;
+}
+/* 🔐 VALIDACIÓN FORMATO (OPCIONAL SOLO UI) */
+if(!validarPassword(password)){
+  showError("Debe tener 8 caracteres, número y símbolo (&,$,/)");
+  return;
+}
+/* ✅ LLAMAR AL LOGIN REAL (BACKEND) */
+if(originalLogin){
+  originalLogin();
+}
+}
+</script>
+</body>
+</html>

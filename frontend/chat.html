@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CloudTeams</title>
+ 
+<link rel="icon" href="assets/favicon/favicon.png">
+ 
+<style>
+ 
+/* 🌍 BASE */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(120deg, #f3f6fb, #e9eef5);
+  height: 100vh;
+  overflow: hidden;
+}
+ 
+/* 🧊 GLASS BASE */
+.glass {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.6),
+    0 20px 40px rgba(0,0,0,0.08);
+}
+ 
+/* 📦 LAYOUT */
+.app {
+  display: flex;
+  height: 100vh;
+  gap: 10px;
+}
+ 
+/* 📂 SIDEBAR */
+.sidebar {
+  width: 260px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 15px 0 15px 15px;
+  border-radius: 30px;
+}
+ 
+.logo {
+  font-size: 22px;
+  font-weight: 600;
+}
+ 
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+ 
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+ 
+.menu-item:hover {
+  transform: translateX(6px);
+  background: rgba(255,255,255,0.3);
+}
+ 
+.icon-img {
+  width: 28px;
+  height: 28px;
+}
+ 
+/* 🧠 MAIN */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+ 
+/* 🔝 TOPBAR */
+.topbar {
+  height: 70px;
+  margin: 15px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+ 
+  /* 🔥 FIX IMPORTANTE */
+  position: relative;
+  z-index: 10;
+}
+ 
+/* 🔍 SEARCH */
+.search {
+  width: 280px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: none;
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(20px);
+  outline: none;
+  transition: all 0.35s ease;
+}
+ 
+.search:hover { width: 350px; }
+.search:focus { width: 480px; }
+ 
+/* 🔥 ICONOS */
+.action-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:0.3s;
+}
+ 
+.action-btn:hover {
+  transform: scale(1.2);
+}
+ 
+.icon-action { width:20px; }
+ 
+/* 👤 PERFIL */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  cursor: pointer;
+}
+ 
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+ 
+/* 🔥 MENU PERFIL */
+.profile-menu {
+position: absolute;
+top: 60px;
+right: 0;
+width: 260px;
+padding: 15px;
+border-radius: 20px;
+display: none;
+flex-direction: column;
+gap: 10px;
+/* 🔥 🔥 🔥 AQUÍ ESTABA EL ERROR 🔥 🔥 🔥 */
+/* FONDO BLANCO CON DIFUMINADO REAL */
+background: rgba(255, 255, 255, 0.85);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+/* BORDE SUAVE */
+border: 1px solid rgba(255,255,255,0.6);
+/* SOMBRA PARA QUE FLOTE */
+box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+z-index: 9999;
+}
+ 
+.profile-header {
+  display:flex;
+  gap:10px;
+  align-items:center;
+  border-bottom:1px solid rgba(255,255,255,0.3);
+  padding-bottom:10px;
+}
+ 
+.profile-header img {
+  width:45px;
+  height:45px;
+  border-radius:50%;
+}
+ 
+.menu-option {
+  padding:10px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:0.3s;
+}
+ 
+.menu-option:hover {
+  background: rgba(255,255,255,0.4);
+}
+ 
+.menu-option.danger {
+  color:red;
+}
+ 
+/* 💬 CHAT */
+.chat {
+  flex:1;
+  margin:15px;
+  border-radius:25px;
+  display:flex;
+  flex-direction:column;
+  padding:20px;
+
+  min-height: 0;
+}
+ 
+/* 💬 CHAT (ARREGLADO) */
+.messages {
+  flex:1;
+  overflow-y:auto;
+ 
+  display: flex;
+  flex-direction: column; /* 🔥 mensajes en columna */
+}
+ 
+/* 🔥 BURBUJAS CORREGIDAS */
+.msg {
+  display: block;            /* 🔥 clave */
+  width: fit-content;        /* tamaño dinámico */
+  max-width: 55%;
+ 
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-radius: 20px;
+ 
+  word-wrap: break-word;
+ 
+  animation: fadeIn 0.2s ease;
+}
+ 
+/* 🔵 MENSAJE PROPIO */
+.me {
+  margin-left: auto;
+ 
+  background: linear-gradient(135deg, #4fc3f7, #00bcd4);
+  color: white;
+ 
+  box-shadow:
+    0 5px 15px rgba(0,150,255,0.3),
+    inset 0 1px 1px rgba(255,255,255,0.4);
+}
+ 
+/* ⚪ MENSAJE OTRO */
+.other {
+  background: rgba(255,255,255,0.6);
+ 
+  box-shadow:
+    0 5px 15px rgba(0,0,0,0.08),
+    inset 0 1px 1px rgba(255,255,255,0.6);
+}
+ 
+/* ✨ ANIMACIÓN */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+ 
+/* INPUT */
+.input-area {
+  display:flex;
+  gap:10px;
+}
+ 
+/* CLIP */
+.clip-btn {
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:0.3s;
+}
+ 
+.clip-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(0,255,200,0.5);
+}
+ 
+.clip-btn:active {
+  box-shadow: 0 0 25px rgba(0,255,200,0.9);
+}
+ 
+.clip-icon { width:20px; }
+ 
+.input {
+  flex:1;
+  padding:14px;
+  border-radius:25px;
+  border:none;
+  background: rgba(255,255,255,0.3);
+}
+ 
+/* ✈️ BOTÓN SEND SOLO GLOW (APPLE CLEAN) */
+.btn-send {
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+ 
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(20px);
+ 
+  display:flex;
+  align-items:center;
+  justify-content:center;
+ 
+  transition: all 0.25s ease;
+}
+ 
+/* 🔥 HOVER SUAVE */
+.btn-send:hover {
+  transform: scale(1.08);
+}
+ 
+/* 💥 CLICK = ILUMINACIÓN REAL */
+.btn-send:active {
+  transform: scale(0.9);
+ 
+  box-shadow:
+    0 0 15px rgba(0,255,200,0.6),
+    0 0 30px rgba(0,200,255,0.5),
+    0 0 50px rgba(0,255,200,0.3);
+}
+ 
+.send-icon { width:22px; }
+ 
+</style>
+</head>
+ 
+<body>
+ 
+<div class="app">
+ 
+<div class="sidebar glass">
+<div class="logo">CloudTeams</div>
+ 
+<div class="menu">
+<div class="menu-item glass" onclick="gochats()"><img src="assets/icons/chat.png" class="icon-img">Chats</div>
+<div class="menu-item glass"><img src="assets/icons/global.png" class="icon-img">Chat General</div>
+<div class="menu-item glass" onclick="gocalendario()"><img src="assets/icons/calendario.png" class="icon-img">Calendario</div>
+<div class="menu-item glass" onclick="gonotificaciones()"><img src="assets/icons/notificaciones.png" class="icon-img">Notificaciones</div>
+</div>
+</div>
+ 
+<div class="main">
+ 
+<div class="topbar glass">
+<h3>Chat General</h3>
+ 
+<input class="search" placeholder="Buscar chats...">
+ 
+<div style="display:flex; gap:10px;">
+<div class="action-btn glass"><img src="assets/icons/llamada.png" class="icon-action"></div>
+<div class="action-btn glass"><img src="assets/icons/videollamada.png" class="icon-action"></div>
+<div class="action-btn glass"><img src="assets/icons/grupo.png" class="icon-action"></div>
+</div>
+ 
+<div class="profile" onclick="toggleMenu()">
+ 
+<div class="avatar" id="avatar">U</div>
+<img id="topProfileImage" src="assets/icons/user.png" style="
+width:38px;
+height:38px;
+border-radius:50%;
+display:none;
+">
+<span id="username">Usuario</span>
+ 
+<div class="profile-menu" id="profileMenu">
+ 
+<div class="profile-header">
+<img id="profileImage" src="assets/icons/user.png">
+<div>
+<strong id="menuName">Usuario</strong>
+<p id="menuEmail">correo@email.com</p>
+</div>
+</div>
+ 
+<div class="menu-option" onclick="window.location.href='perfil.html'">Editar información</div>
+<div class="menu-option" onclick="window.location.href='password.html'">Cambiar contraseña</div>
+ 
+<label class="menu-option">
+Cambiar foto
+<input type="file" id="photoInput" accept="image/png, image/jpeg" hidden>
+</label>
+ 
+<div class="menu-option danger" onclick="logout()">Cerrar sesión</div>
+ 
+</div>
+</div>
+</div>
+ 
+<div class="chat glass">
+<div class="messages" id="messages">
+</div>
+ 
+<div class="input-area">
+ 
+<label class="clip-btn glass">
+<img src="assets/icons/clic.png" class="clip-icon">
+<input type="file" id="fileInput" hidden multiple>
+</label>
+ 
+<input id="msg" class="input" placeholder="Escribe un mensaje...">
+ 
+<button class="btn-send" onclick="send()">
+<img src="assets/icons/send.png" class="send-icon">
+</button>
+ 
+</div>
+</div>
+ 
+</div>
+</div>
+ 
+<!-- 🔥 SOCKET.IO SIEMPRE PRIMERO -->
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script>
+/* 🔥 USUARIO GLOBAL (NUEVO 🔥) */
+const user = JSON.parse(localStorage.getItem("user"));
+if (!user) {
+ window.location.href = "login.html";
+}
+
+/* 🔥 ACTUALIZAR UI EN TIEMPO REAL (NUEVO 🔥) */
+const nombreCompleto = user
+ ? `${user.nombre || ""} ${user.apellido || ""}`.trim()
+ : "Usuario";
+/* actualizar nombre en topbar */
+setTimeout(() => {
+ const usernameEl = document.getElementById("username");
+ const menuNameEl = document.getElementById("menuName");
+ if(usernameEl) usernameEl.innerText = nombreCompleto || "Usuario";
+ if(menuNameEl) menuNameEl.innerText = nombreCompleto || "Usuario";
+}, 0);
+
+/* 🔥 CONEXIÓN */
+const socket = io("http://localhost:3000");
+const chatId = "general";
+/* 🔥 RECONEXIÓN AUTOMÁTICA (NUEVO 🔥) */
+socket.on("connect", () => {
+ socket.emit("joinChat", chatId);
+});
+/* 🔥 UNIRSE */
+socket.emit("joinChat", chatId);
+/* 🔥 HISTORIAL (NUEVO 🔥) */
+socket.on("chatHistory", (messages) => {
+document.getElementById("messages").innerHTML = "";
+messages.forEach(data => {
+const container = document.createElement("div");
+const myName = user ? `${user.nombre || ""} ${user.apellido || ""}`.trim() : "";
+const isMe = (data.sender || "").trim() === myName;
+container.style.display = "flex";
+container.style.gap = "10px";
+container.style.marginBottom = "12px";
+container.style.alignItems = "flex-start";
+container.style.flexDirection = isMe ? "row-reverse" : "row";
+/* 🔥 FOTO O INICIAL (NUEVO 🔥) */
+let img;
+if (data.photo) {
+ img = document.createElement("img");
+ img.src = data.photo;
+ img.style.width = "35px";
+ img.style.height = "35px";
+ img.style.borderRadius = "50%";
+} else {
+ img = document.createElement("div");
+ img.innerText = data.sender ? data.sender.charAt(0).toUpperCase() : "U";
+ img.style.width = "35px";
+ img.style.height = "35px";
+ img.style.borderRadius = "50%";
+ img.style.display = "flex";
+ img.style.alignItems = "center";
+ img.style.justifyContent = "center";
+ img.style.background = "#ccc";
+ img.style.fontWeight = "bold";
+}
+/* BURBUJA */
+const bubble = document.createElement("div");
+bubble.className = isMe ? "msg me" : "msg other";
+bubble.innerHTML = `
+<div style="font-size:11px; opacity:0.6; margin-bottom:3px;">
+${data.sender}
+</div>
+${data.text}
+<div style="font-size:10px; opacity:0.5; margin-top:4px; text-align:right;">
+${new Date(data.createdAt || Date.now()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+</div>
+`;
+container.appendChild(img);
+container.appendChild(bubble);
+document.getElementById("messages").appendChild(container);
+const box = document.getElementById("messages");
+box.scrollTop = box.scrollHeight;
+});
+});
+/* 🔥 MENU */
+function toggleMenu(){
+const m = document.getElementById("profileMenu");
+m.style.display = m.style.display === "flex" ? "none" : "flex";
+}
+/* 🔥 CERRAR CLICK FUERA */
+document.addEventListener("click", function(e){
+const profile = document.querySelector(".profile");
+const menu = document.getElementById("profileMenu");
+if (!profile.contains(e.target)) {
+menu.style.display = "none";
+}
+});
+/* 🔥 USER */
+window.onload = () => {
+console.log("USER", user);
+const username = document.getElementById("username");
+const menuName = document.getElementById("menuName");
+const menuEmail = document.getElementById("menuEmail");
+const avatar = document.getElementById("avatar");
+const profileImage = document.getElementById("profileImage");
+if (user && (user.nombre || user.apellido)) {
+const fullName = `${user.nombre || ""} ${user.apellido || ""}`.trim();
+username.innerText = fullName;
+menuName.innerText = fullName;
+menuEmail.innerText = user.correo || "correo@email.com";
+const topImage = document.getElementById("topProfileImage");
+if (user.photo) {
+profileImage.src = user.photo;
+topImage.src = user.photo;
+avatar.style.display = "none";
+topImage.style.display = "block";
+} else {
+avatar.innerText = user.nombre ? user.nombre.charAt(0) : "U";
+profileImage.src = "assets/icons/user.png";
+topImage.style.display = "none";
+}
+} else {
+username.innerText = "Usuario";
+menuName.innerText = "Usuario";
+menuEmail.innerText = "correo@email.com";
+avatar.innerText = "U";
+avatar.style.display = "flex";
+}
+};
+/* 📸 FOTO */
+document.getElementById("photoInput").addEventListener("change", function () {
+const file = this.files[0];
+if (!file) return;
+if (!file.type.includes("image/png") && !file.type.includes("image/jpeg")) {
+return;
+}
+const reader = new FileReader();
+reader.onload = function (e) {
+user.photo = e.target.result;
+localStorage.setItem("user", JSON.stringify(user));
+document.getElementById("profileImage").src = e.target.result;
+document.getElementById("avatar").style.display = "none";
+};
+reader.readAsDataURL(file);
+});
+/* LOGOUT */
+function logout(){
+localStorage.removeItem("user");
+window.location.href="login.html";
+}
+/* 📎 ARCHIVOS */
+document.getElementById("fileInput").addEventListener("change", function () {
+const files = this.files;
+for (let file of files) {
+const msg = document.createElement("div");
+msg.className = "msg me";
+msg.innerHTML = file.type.startsWith("image/")
+? `<img src="${URL.createObjectURL(file)}" style="max-width:200px;border-radius:15px;">`
+: `📎 ${file.name}`;
+document.getElementById("messages").appendChild(msg);
+}
+});
+/* 🔥 SEND */
+function send(){
+const input = document.getElementById("msg");
+if(!input.value) return;
+if (!user || !user.nombre) {
+ alert("Sesión expirada");
+ window.location.href = "login.html";
+ return;
+}
+const msgData = {
+ text: input.value,
+ chatId: chatId,
+ sender: `${user.nombre || ""} ${user.apellido || ""}`.trim(),
+ photo: user?.photo || null
+};
+socket.emit("sendMessage", msgData);
+input.value="";
+}
+/* 🔥 RECIBIR MENSAJES */
+socket.on("newMessage", (data) => {
+const container = document.createElement("div");
+const myName = user ? `${user.nombre || ""} ${user.apellido || ""}`.trim() : "";
+const isMe = (data.sender || "").trim() === myName;
+container.style.display = "flex";
+container.style.gap = "10px";
+container.style.marginBottom = "12px";
+container.style.alignItems = "flex-start";
+container.style.flexDirection = isMe ? "row-reverse" : "row";
+/* 🔥 FOTO O INICIAL (NUEVO 🔥) */
+let img;
+if (data.photo) {
+ img = document.createElement("img");
+ img.src = data.photo;
+ img.style.width = "35px";
+ img.style.height = "35px";
+ img.style.borderRadius = "50%";
+} else {
+ img = document.createElement("div");
+ img.innerText = data.sender ? data.sender.charAt(0).toUpperCase() : "U";
+ img.style.width = "35px";
+ img.style.height = "35px";
+ img.style.borderRadius = "50%";
+ img.style.display = "flex";
+ img.style.alignItems = "center";
+ img.style.justifyContent = "center";
+ img.style.background = "#ccc";
+ img.style.fontWeight = "bold";
+}
+/* BURBUJA */
+const bubble = document.createElement("div");
+bubble.className = isMe ? "msg me" : "msg other";
+bubble.innerHTML = `
+<div style="font-size:11px; opacity:0.6; margin-bottom:3px;">
+${data.sender}
+</div>
+${data.text}
+<div style="font-size:10px; opacity:0.5; margin-top:4px; text-align:right;">
+${new Date(data.createdAt || Date.now()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+</div>
+`;
+container.appendChild(img);
+container.appendChild(bubble);
+document.getElementById("messages").appendChild(container);
+const box = document.getElementById("messages");
+box.scrollTop = box.scrollHeight;
+});
+/* 🔥 IR A CHATS */
+function gochats(){
+window.location.href = "chats.html";
+}
+
+function gonotificaciones(){
+ window.location.href = "notificaciones.html";
+}
+
+function gocalendario(){
+ window.location.href = "calendario.html";
+}
+</script>

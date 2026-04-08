@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CloudTeams</title>
+<link rel="icon" href="assets/favicon/favicon.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="login-page">
+
+<div class="hero">
+
+  <div class="left">
+    <h1>Inicio de sesión de CloudTeams</h1>
+    <p>
+      CloudTeams te ayuda a comunicarte, colaborar y gestionar tu trabajo
+      desde cualquier lugar con una experiencia moderna y segura.
+    </p>
+
+    <div class="buttons">
+      <button class="primary" onclick="goLogin()">Iniciar sesión</button>
+      <button class="secondary" onclick="goRegister()">Registrarse</button>
+    </div>
+  </div>
+
+  <div class="right"></div>
+
+</div>
+
+<!-- MODAL LOGIN -->
+<div id="loginModal" class="modal">
+  <div class="modal-content glass">
+    <h2>Iniciar sesión</h2>
+
+    <input id="correo" placeholder="Correo">
+    <input id="password" type="password" placeholder="Contraseña">
+
+    <button onclick="login()">Entrar</button>
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CloudTeams Registro</title>
+<link rel="icon" href="assets/favicon/favicon.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="auth-page">
+<div class="login-container">
+<div class="login-card glass"> <img src="../frontend/assets/images/logo.png" class="logo">
+<p class="subtitle">Crear cuenta</p>
+<!-- 🔥 FILA 1 -->
+<div class="row">
+<input id="nombre" placeholder="Nombre" required>
+<input id="apellido" placeholder="Apellido" required>
+</div>
+<!-- 🔥 FILA 2 -->
+<div class="row">
+<input id="correo" placeholder="Correo electrónico" required>
+<input id="telefono" placeholder="Número de teléfono" required>
+</div>
+<!-- 🔥 PASSWORD CON ICONO -->
+<div style="position:relative;">
+<input id="password" type="password" placeholder="Contraseña" required style="width:100%;">
+<img
+                 id="eyeIcon"
+                 src="assets/icons/password1.png"
+                 onclick="togglePassword()"
+                 style="
+                   position:absolute;
+                   right:12px;
+                   top:50%;
+                   transform:translateY(-50%);
+                   width:22px;
+                   height:22px;
+                   cursor:pointer;
+                   transition: all 0.25s ease;
+                   opacity:0.85;
+                 "
+>
+</div>
+<!-- 🔥 SELECT ROL -->
+<select id="rol" required>
+<option value="">Selecciona tu rol</option>
+<option value="pregrado">Estudiante de pregrado</option>
+<option value="postgrado">Estudiante de postgrado</option>
+<option value="docente">Docente</option>
+<option value="admin">Administrador</option>
+</select>
+<!-- 🔥 FOOTER -->
+<div class="login-footer">
+<div class="left-footer">
+<p class="extra">¿Ya tienes cuenta?</p>
+<button class="secondary" onclick="goLogin()">Iniciar sesión</button>
+</div>
+<div class="right-footer">
+<button class="primary" onclick="register()">Registrarse</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 🚫 ALERTA ERROR CENTRADA -->
+<div id="errorBox" style="
+   position:fixed;
+   top:50%;
+   left:50%;
+   transform:translate(-50%, -50%);
+   padding:18px 30px;
+   border-radius:20px;
+   background: rgba(255,0,0,0.2);
+   backdrop-filter: blur(25px);
+   -webkit-backdrop-filter: blur(25px);
+   border:1px solid rgba(255,0,0,0.4);
+   color:#fff;
+   font-weight:600;
+   display:none;
+   z-index:9999;
+   box-shadow:0 10px 30px rgba(0,0,0,0.3);
+   text-align:center;
+   ">
+   ❌ Error
+</div>
+<script src="js/auth.js"></script>
+<!-- 🔥 SCRIPT NUEVO -->
+<script>
+   /* 👁 MOSTRAR / OCULTAR */
+   function togglePassword(){
+     const input = document.getElementById("password");
+     const icon = document.getElementById("eyeIcon");
+     if(input.type === "password"){
+       input.type = "text";
+       icon.src = "assets/icons/password2.png";
+       icon.style.transform = "translateY(-50%) scale(1.2)";
+       setTimeout(()=>{
+         icon.style.transform = "translateY(-50%) scale(1)";
+       },150);
+     } else {
+       input.type = "password";
+       icon.src = "assets/icons/password1.png";
+       icon.style.transform = "translateY(-50%) scale(0.9)";
+       setTimeout(()=>{
+         icon.style.transform = "translateY(-50%) scale(1)";
+       },150);
+     }
+   }
+   /* 🚫 ERROR */
+   function showError(msg){
+     const box = document.getElementById("errorBox");
+     box.innerText = "❌ " + msg;
+     box.style.display = "block";
+     setTimeout(()=>{
+       box.style.display = "none";
+     }, 2500);
+   }
+   /* 🔐 VALIDACIÓN */
+   function validarPassword(pass){
+     const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[&$/]).{8,}$/;
+     return regex.test(pass);
+   }
+   /* 🔥 SOBRESCRIBIR REGISTER SIN ROMPER */
+   const originalRegister = window.register;
+   window.register = function(){
+     const nombre = document.getElementById("nombre").value;
+     const apellido = document.getElementById("apellido").value;
+     const correo = document.getElementById("correo").value;
+     const telefono = document.getElementById("telefono").value;
+     const password = document.getElementById("password").value;
+     const rol = document.getElementById("rol").value;
+     if(!nombre || !apellido || !correo || !telefono || !password || !rol){
+       showError("Completa todos los campos");
+       return;
+     }
+     if(!validarPassword(password)){
+       showError("Mínimo 8 caracteres, número y símbolo (&,$,/)");
+       return;
+     }
+     /* 💾 GUARDAR USUARIO */
+     const user = {
+       nombre,
+       apellido,
+       correo,
+       telefono,
+       password,
+       rol
+     };
+     localStorage.setItem("user", JSON.stringify(user));
+     /* ✅ CONTINUAR FLUJO NORMAL */
+     if(originalRegister){
+       originalRegister();
+     } else {
+       window.location.href = "login.html";
+     }
+   }
+</script>
+</body>
+</html>
