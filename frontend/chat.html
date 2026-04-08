@@ -359,7 +359,6 @@ z-index: 9999;
 <div class="logo">CloudTeams</div>
  
 <div class="menu">
-<div class="menu-item glass" onclick="gochats()"><img src="assets/icons/chat.png" class="icon-img">Chats</div>
 <div class="menu-item glass"><img src="assets/icons/global.png" class="icon-img">Chat General</div>
 <div class="menu-item glass" onclick="gocalendario()"><img src="assets/icons/calendario.png" class="icon-img">Calendario</div>
 <div class="menu-item glass" onclick="gonotificaciones()"><img src="assets/icons/notificaciones.png" class="icon-img">Notificaciones</div>
@@ -662,10 +661,6 @@ document.getElementById("messages").appendChild(container);
 const box = document.getElementById("messages");
 box.scrollTop = box.scrollHeight;
 });
-/* 🔥 IR A CHATS */
-function gochats(){
-window.location.href = "chats.html";
-}
 
 function gonotificaciones(){
  window.location.href = "notificaciones.html";
