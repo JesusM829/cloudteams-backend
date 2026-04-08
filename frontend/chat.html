@@ -458,14 +458,14 @@ setTimeout(() => {
 }, 0);
 
 /* 🔥 CONEXIÓN */
-const socket = io("http://localhost:3000");
+const socket = io("https://cloudteams-backend.onrender.com", {
+ transports: ["websocket"]
+});
 const chatId = "general";
 /* 🔥 RECONEXIÓN AUTOMÁTICA (NUEVO 🔥) */
 socket.on("connect", () => {
  socket.emit("joinChat", chatId);
 });
-/* 🔥 UNIRSE */
-socket.emit("joinChat", chatId);
 /* 🔥 HISTORIAL (NUEVO 🔥) */
 socket.on("chatHistory", (messages) => {
 document.getElementById("messages").innerHTML = "";

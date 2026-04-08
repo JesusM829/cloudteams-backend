@@ -41,10 +41,12 @@ socket.on("joinChat", async (chatId) => {
 /* 🔥 ENVIAR MENSAJE */
 socket.on("sendMessage", async (data) => {
    // 🔥 GUARDAR EN DB
-   const newMsg = new Message(data);
+   const newMsg = new Message({
+      ...data,
+      createdAt: new Date()
+   });
    await newMsg.save();
-   // 🔥 ENVIAR A TODOS EN EL CHAT
-io.to(data.chatId).emit("newMessage", data);
+   io.to(data.chatId).emit("newMessage", newMsg);
 });
 });
 /* 🔥 IMPORTANTE */
